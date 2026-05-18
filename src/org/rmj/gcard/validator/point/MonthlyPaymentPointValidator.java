@@ -64,6 +64,7 @@ public class MonthlyPaymentPointValidator implements GCardPoint{
         String date = SQLUtil.dateFormat((Date)poData.getValue("dTransact"), "yyyy-MM-dd");
         String refer = (String)poData.getValue("sSourceNo");      
       
+        //Make sure that cGCrdPstd is still '0'
         String lsSQL = "SELECT a.sTransNox, a.nAmountxx nTranAmtx, a.nRebatesx nDisCount, b.dFirstPay, DATE_ADD(DATE_ADD(b.dFirstPay, INTERVAL 5 MONTH ), INTERVAL 5 DAY) dLastXPay, b.nMonAmort, (b.nPaymTotl - a.nAmountxx) nPaymTotl, (b.nRebTotlx - a.nRebatesx) nRebTotlx, b.sSerialID" +
                         " FROM LR_Payment_Master a" +
                             ", MC_AR_Master b" +
@@ -73,8 +74,11 @@ public class MonthlyPaymentPointValidator implements GCardPoint{
                             " AND a.sAcctNmbr = b.sAcctNmbr" + 
                             " AND a.cTranType = '2'" +
                             " AND a.cPostedxx = '2'" + 
-                            " AND IFNULL(a.sCollIDxx, '') = ''";
-      //                    " AND a.cGCrdPstd = " + SQLUtil.toSQL(used ? '1' : '0') +
+                            " AND IFNULL(a.sCollIDxx, '') = ''" +
+                            " AND a.cGCrdPstd = '0'";
+
+        //
+        //                    " AND a.cGCrdPstd = " + SQLUtil.toSQL(used ? '1' : '0') +
       
         //mac 2020.08.22
         //  change the validation of a.cPostedxx <> '3' to a.cPostedxx = '2'
