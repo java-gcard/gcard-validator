@@ -77,6 +77,7 @@ public class MonthlyPaymentPointValidator implements GCardPoint{
                             " AND IFNULL(a.sCollIDxx, '') = ''" +
                             " AND a.cGCrdPstd = '0'";
 
+        //
         //                    " AND a.cGCrdPstd = " + SQLUtil.toSQL(used ? '1' : '0') +
       
         //mac 2020.08.22
